@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FastAPI ToDo List</title>
+</head>
+<style>
+  body {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    flex-direction:column;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+</style>
+<body>
+  <h1 style="margin-bottom: 0;">My ToDo List</h1>
+  <ul id="tasks"></ul>
+  <div class="inp">
+    <input type="number" id="Tid" placeholder="Task id" style="width: 70px;"/>
+    <input type="text" id="Ttitle" placeholder="Task title" style="margin-bottom: 10px;"/>
+  </div>
+  <button onclick="addTask()">Add Task</button>
+  <button onclick="updTask()">Update Task</button>
+
+  <script>
+    const BASE_URL = "https://YOUR_RENDER_URL.onrender.com";
+    const tasksList = document.getElementById('tasks');
+
+    async function upd(newTask) {
+        await fetch(`${BASE_URL}/tasks/${newTask.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newTask)
+        });
+        fetchTasks();
+    }
+
+    async function delTask(id) {
+        await fetch(`${BASE_URL}/tasks/${id}`, {
+            method: 'DELETE'
+        });
+        fetchTasks();
+    }
+    
+    async function fetchTasks() {
+      const res = await fetch(`${BASE_URL}/tasks`);
+      const tasks = await res.json();
+
+      tasks.sort((a, b) => a.id - b.id);
+      tasksList.innerHTML = '';
+      tasks.forEach(task => {
+        const label = document.createElement("span");
+        label.textContent = task.id + "\t" + task.title;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.style.marginLeft = "10px";
+        checkbox.addEventListener("change", () => {
+            const newTask = {
+                id: task.id,
+                title: task.title,
+                completed: checkbox.checked
+            };
+            upd(newTask);
+        });
+
+        const del = document.createElement("button");
+        del.textContent = "Delete";
+        del.onclick = () => delTask(task.id);
+        del.style.marginLeft = "25px";
+
+        const li = document.createElement('li');
+        li.appendChild(label);
+        li.appendChild(checkbox);
+        li.appendChild(del);
+        tasksList.appendChild(li);
+      });
+    }
+
+    async function addTask() {
+      const titleInput = document.getElementById('Ttitle');
+      const idInput = document.getElementById('Tid');
+
+      const title = titleInput.value.trim();
+      if (!title) return alert('Enter a task title');
+
+      const id = idInput.value.trim();
+      if (!id) return alert('Enter a task id');
+
+      const newTask = {
+        id: parseInt(id),
+        title: title,
+        completed: false
+      };
+      
+      const res = await fetch(`${BASE_URL}/tasks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTask)
+      });
+      if (!res.ok) {
+        if (res.status === 400) {
+          return alert('Task id must be unique');
+        }
+      }
+      titleInput.value = '';
+      idInput.value = '';
+      fetchTasks();
+    }
+
+    async function updTask() {
+      const titleInput = document.getElementById('Ttitle');
+      const idInput = document.getElementById('Tid');
+
+      const title = titleInput.value.trim();
+      if (!title) return alert('Enter a task title');
+
+      const id = idInput.value.trim();
+      if (!id) return alert('Enter a task id');
+
+      const newTask = {
+        id: parseInt(id),
+        title: title,
+        completed: false
+      };
+
+      upd(newTask);
+      titleInput.value = '';
+      idInput.value = '';
+    }
+
+    fetchTasks();
+  </script>
+</body>
+</html>
