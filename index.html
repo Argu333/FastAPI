@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,31 +28,30 @@
   <button onclick="updTask()">Update Task</button>
 
   <script>
+    const BASE_URL = "https://fastapi-todo-nfo2.onrender.com";
     const tasksList = document.getElementById('tasks');
 
     async function upd(newTask) {
-        await fetch(('/tasks/' + newTask.id), {
+        await fetch(`${BASE_URL}/tasks/${newTask.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: (newTask.id, JSON.stringify(newTask))
+            body: JSON.stringify(newTask)
         });
+        fetchTasks();
     }
 
     async function delTask(id) {
-        const res = await fetch(('/tasks/' + id), {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: id
+        await fetch(`${BASE_URL}/tasks/${id}`, {
+            method: 'DELETE'
         });
         fetchTasks();
     }
     
     async function fetchTasks() {
-      const res = await fetch('/tasks');
+      const res = await fetch(`${BASE_URL}/tasks`);
       const tasks = await res.json();
 
       tasks.sort((a, b) => a.id - b.id);
-
       tasksList.innerHTML = '';
       tasks.forEach(task => {
         const label = document.createElement("span");
@@ -67,9 +65,9 @@
             const newTask = {
                 id: task.id,
                 title: task.title,
-                completed: (checkbox.checked ? true : false)
+                completed: checkbox.checked
             };
-            upd(newTask)
+            upd(newTask);
         });
 
         const del = document.createElement("button");
@@ -78,70 +76,63 @@
         del.style.marginLeft = "25px";
 
         const li = document.createElement('li');
-
         li.appendChild(label);
         li.appendChild(checkbox);
         li.appendChild(del);
         tasksList.appendChild(li);
       });
     }
+
     async function addTask() {
       const titleInput = document.getElementById('Ttitle');
       const idInput = document.getElementById('Tid');
-      const compInput = document.getElementById('Tstatus');
 
-      title = titleInput.value.trim();
+      const title = titleInput.value.trim();
       if (!title) return alert('Enter a task title');
 
-      id = idInput.value.trim();
+      const id = idInput.value.trim();
       if (!id) return alert('Enter a task id');
 
-      id = parseInt(idInput.value);
-
       const newTask = {
-        id: id,
+        id: parseInt(id),
         title: title,
         completed: false
       };
       
-      const res = await fetch('/tasks', {
+      const res = await fetch(`${BASE_URL}/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask)
       });
-      if (!res.ok){
+      if (!res.ok) {
         if (res.status === 400) {
-            return alert('Task id must be unique');
+          return alert('Task id must be unique');
         }
       }
       titleInput.value = '';
       idInput.value = '';
       fetchTasks();
     }
+
     async function updTask() {
       const titleInput = document.getElementById('Ttitle');
       const idInput = document.getElementById('Tid');
-      const compInput = document.getElementById('Tstatus');
 
-      title = titleInput.value.trim();
+      const title = titleInput.value.trim();
       if (!title) return alert('Enter a task title');
 
-      id = idInput.value.trim();
+      const id = idInput.value.trim();
       if (!id) return alert('Enter a task id');
 
-      id = parseInt(idInput.value);
-
       const newTask = {
-        id: id,
+        id: parseInt(id),
         title: title,
         completed: false
       };
-      
+
       upd(newTask);
-      
       titleInput.value = '';
       idInput.value = '';
-      fetchTasks();
     }
 
     fetchTasks();
