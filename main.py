@@ -1,11 +1,21 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or just your GitHub Pages URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class Task(BaseModel):
     id: int
