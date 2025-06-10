@@ -1,29 +1,27 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from typing import List
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
-# Task Model
 class Task(BaseModel):
     id: int
     title: str
     completed: bool = False
 
-# In-memory storage
 tasks: List[Task] = []
 
-# Home Route
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the FastAPI ToDo List!"}
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-# Get All Tasks
 @app.get("/tasks", response_model=List[Task])
 def get_tasks():
     return tasks
 
-# Create a Task
 @app.post("/tasks", response_model=Task)
 def create_task(task: Task):
     if any(t.id == task.id for t in tasks):
@@ -31,7 +29,6 @@ def create_task(task: Task):
     tasks.append(task)
     return task
 
-# Get Task by ID
 @app.get("/tasks/{task_id}", response_model=Task)
 def get_task(task_id: int):
     for task in tasks:
@@ -39,7 +36,6 @@ def get_task(task_id: int):
             return task
     raise HTTPException(status_code=404, detail="Task not found.")
 
-# Update Task
 @app.put("/tasks/{task_id}", response_model=Task)
 def update_task(task_id: int, updated_task: Task):
     for index, task in enumerate(tasks):
@@ -48,7 +44,6 @@ def update_task(task_id: int, updated_task: Task):
             return updated_task
     raise HTTPException(status_code=404, detail="Task not found.")
 
-# Delete Task
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int):
     for index, task in enumerate(tasks):
