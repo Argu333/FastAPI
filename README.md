@@ -1,3 +1,7 @@
+<a href="https://api.render.com/deploy/srv-d13svemmcj7s738dqka0?key=w0cLzScxBew" target="_blank">
+  <img src="https://img.shields.io/badge/Click%20here%20then%20retry-blue?label=If%20the%20list%20is%20unresponsive%20at%20argu333.github.io%2FFastAPI%2F&labelColor=white" />
+</a>
+
 # 🚀 FastAPI ToDo List
 
 A simple ToDo list web application built with FastAPI and vanilla JavaScript.  
