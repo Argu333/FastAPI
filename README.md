@@ -1,8 +1,8 @@
 <a href="https://api.render.com/deploy/srv-d13svemmcj7s738dqka0?key=w0cLzScxBew" target="_blank">
-  <img src="https://img.shields.io/badge/Click%20here%20then%20retry-blue?label=If%20the%20list%20is%20unresponsive%20at%20argu333.github.io%2FFastAPI%2F&labelColor=white" />
+  <img src="https://img.shields.io/badge/Click%20here-blue?style=plastic&label=If%20the%20login%2Fregister%20takes%20too%20much%20time&labelColor=white" />
 </a>
 
-Please let it load for 3-4 mins when you run it for the first time. The backend host takes time to load the data when its being used after a long period of disuse.
+Please let it load for 2-5 mins when you run it for the first time. The backend host takes time to load the data when its being used after a long period of disuse.
 
 # 🚀 FastAPI ToDo List
 
