@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FastAPI ToDo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      background: #0f0f0f;
+    }
+
+    .trail {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: fadeOut 2.5s forwards ease-out;
+    }
+
+    .desktop-trail {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0,255,255,0.4) 0%, transparent 80%);
+    }
+
+    .mobile-trail {
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(0,255,255,0.25) 0%, transparent 80%);
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(3);
+      }
+    }
+
+    .glass-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 45px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      color: white;
+      z-index: 1;
+      max-width: 90%;
+      width: 420px;
+    }
+
+    .glass-card h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #ff00cc, #3333ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card p {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .glass-card a {
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(0, 114, 255, 0.4);
+    }
+
+    .glass-card a:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 114, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-card">
+    <h1>FastAPI ToDo list</h1>
+    <p>Dynamic. Beautiful. Made by yours truly.</p>
+    <a href="https://fastapi-todo-nfo2.onrender.com">Launch App 🚀</a>
+  </div>
+
+  <script>
+    const colors = ['#ff00cc', '#00c6ff', '#00ff99', '#ff9900', '#ff3366', '#00ffff'];
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    function spawnTrail(x, y) {
+      const trail = document.createElement('div');
+      trail.className = 'trail ' + (isTouch ? 'mobile-trail' : 'desktop-trail');
+      trail.style.left = `${x - (isTouch ? 90 : 100)}px`;
+      trail.style.top = `${y - (isTouch ? 90 : 100)}px`;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const opacity = isTouch ? '33' : '44';
+      trail.style.background = `radial-gradient(circle, ${color}${opacity} 0%, transparent 80%)`;
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 1200);
+    }
+
+    if (isTouch) {
+      
+    let lastTouch = 0;
+    document.addEventListener('touchmove', e => {
+      const now = Date.now();
+      if (now - lastTouch < 25) return;
+      lastTouch = now;
+
+        for (const touch of e.touches) {
+          spawnTrail(touch.pageX, touch.pageY);
+        }
+      }, { passive: true });
+    } else {
+      document.addEventListener('mousemove', e => {
+        spawnTrail(e.pageX, e.pageY);
+      });
+    }
+  </script>
+</body>
+</html>

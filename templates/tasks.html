@@ -146,12 +146,12 @@
     const token = localStorage.getItem("token");
     const headers = { Authorization: "Bearer " + token, "Content-Type": "application/json" };
 
-    if (!token) window.location.href = "/";
+    if (!token) window.location.href = "https://fastapi-todo-nfo2.onrender.com/";
 
     let allTasks = [];
 
     async function fetchTasks() {
-      const res = await fetch("/tasks", { headers });
+      const res = await fetch("https://fastapi-todo-nfo2.onrender.com/tasks", { headers });
       allTasks = await res.json();
       allTasks.sort((a, b) => a.id - b.id);
       const ul = document.getElementById("tasks");
@@ -207,7 +207,7 @@
         return;
       }
 
-      const res = await fetch("/tasks", {
+      const res = await fetch("https://fastapi-todo-nfo2.onrender.com/tasks", {
         method: "POST",
         headers,
         body: JSON.stringify({ id, title, completed: false })
@@ -233,7 +233,7 @@
         return;
       }
 
-      const res = await fetch("/tasks/" + id, {
+      const res = await fetch("https://fastapi-todo-nfo2.onrender.com/tasks/" + id, {
         method: "PUT",
         headers,
         body: JSON.stringify({ id, title, completed: false })
@@ -249,7 +249,7 @@
     }
 
     async function updateTaskStatus(id, title, completed) {
-      await fetch("/tasks/" + id, {
+      await fetch("https://fastapi-todo-nfo2.onrender.com/tasks/" + id, {
         method: "PUT",
         headers,
         body: JSON.stringify({ id, title, completed })
@@ -258,7 +258,7 @@
     }
 
     async function deleteTask(id) {
-      await fetch("/tasks/" + id, {
+      await fetch("https://fastapi-todo-nfo2.onrender.com/tasks/" + id, {
         method: "DELETE",
         headers
       });
@@ -267,14 +267,14 @@
 
     async function logout() {
       if (confirm("Are you sure you want to logout?")) {
-        await fetch("/logout", { method: "POST", headers });
+        await fetch("https://fastapi-todo-nfo2.onrender.com/logout", { method: "POST", headers });
         localStorage.removeItem("token");
-        window.location.href = "/";
+        window.location.href = "https://fastapi-todo-nfo2.onrender.com/";
       }
     }
 
     async function fetchUsers() {
-      const res = await fetch("/users", { headers });
+      const res = await fetch("https://fastapi-todo-nfo2.onrender.com/users", { headers });
       if (!res.ok) return;
       document.getElementById("adminPanel").style.display = "block";
       const users = await res.json();
@@ -291,7 +291,7 @@
 async function deleteUser(username) {
       if (!confirm(`Delete user '${username}'?`)) return;
     
-      const res = await fetch("/users/" + username, {
+      const res = await fetch("https://fastapi-todo-nfo2.onrender.com/users/" + username, {
         method: "DELETE",
         headers
       });
