@@ -298,11 +298,11 @@ async function deleteUser(username) {
     
       if (res.ok) {
         const msg = await res.json();
-        alert(msg.message); // ✅ show confirmation like "User 'bob' deleted"
+        alert(msg.message);
         fetchUsers();
       } else {
         const err = await res.json();
-        alert("Error: " + (err.detail || "Could not delete user.")); // ❌ show reason
+        alert("Error: " + (err.detail || "Could not delete user."));
       }
     }
 
