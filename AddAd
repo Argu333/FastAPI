@@ -1,0 +1,39 @@
+# add_admin_user.py
+import json, os, base64
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+
+def hash_password(password: str, salt: bytes) -> str:
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100_000,
+        backend=default_backend()
+    )
+    return base64.urlsafe_b64encode(kdf.derive(password.encode())).decode()
+
+username = "ArGu"
+password = "1234"
+salt = os.urandom(16)
+salt_b64 = base64.b64encode(salt).decode()
+hashed_pw = hash_password(password, salt)
+
+USERS_FILE = "users.json"
+users = {}
+if os.path.exists(USERS_FILE):
+    with open(USERS_FILE, "r") as f:
+        users = json.load(f)
+
+users[username] = {
+    "username": username,
+    "salt": salt_b64,
+    "hashed_password": hashed_pw,
+    "is_admin": True
+}
+
+with open(USERS_FILE, "w") as f:
+    json.dump(users, f, indent=2)
+
+print(f"✅ Admin user '{username}' created.")
