@@ -1,0 +1,14 @@
+{
+  "ArGu": {
+    "username": "ArGu",
+    "salt": "zbMOJu+ZPgksa0WHKHSK3A==",
+    "hashed_password": "T5Gk_QdAeDg0-8IKTGR6hOvawiwVFQr2bUtiwVLCSLA=",
+    "is_admin": true
+  },
+  "a": {
+    "username": "a",
+    "salt": "VUIc543MIt/zS3L2aClihw==",
+    "hashed_password": "Y-46WUg1-ethR7W5UtJn1IlCKja_VV2BN7eeLtAbC7k=",
+    "is_admin": false
+  }
+}
