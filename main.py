@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta
 from typing import List
 from pydantic import BaseModel
@@ -12,6 +13,15 @@ import json, os, jwt, base64
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
 JWT_ALGORITHM = "HS256"
