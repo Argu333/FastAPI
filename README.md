@@ -2,56 +2,100 @@
   <img src="https://img.shields.io/badge/Click%20here-blue?style=plastic&label=If%20the%20login%2Fregister%20takes%20too%20much%20time&labelColor=white" />
 </a>
 
-Please let it load for 2-5 mins when you run it for the first time. The backend host takes time to load the data when its being used after a long period of disuse.
+> ⚠ Please allow 3–4 minutes for the app to load when you open it initially. Render's free backend takes time to spin up cold instances (Those which havent been accessed in some time).
 
-# 🚀 FastAPI ToDo List
+# 🚀 FastAPI ToDo App
 
-A simple ToDo list web application built with FastAPI and vanilla JavaScript.  
-It demonstrates a RESTful API backend with task management (create, read, update, delete) and a minimal frontend UI.
+A full-featured ToDo list app built with **FastAPI**, **vanilla JavaScript**, and a stunning animated launch screen.  
+It supports **authentication**, **per-user task storage**, and a **secure admin panel** — all with a clean UI and blazing-fast backend.
 
 ---
 
 ## ✨ Features
 
-- Create, read, update, and delete tasks with unique IDs
-- Mark tasks as completed via checkboxes
-- Real-time UI updates with JavaScript `fetch` API
-- Server-side rendered frontend using Jinja2 templates
-- Error handling for duplicate task IDs and missing tasks
+- 🔐 JWT-based login system
+- 📝 Per-user task creation, editing, and deletion
+- ✅ Mark tasks complete/incomplete
+- 🧑‍💼 Admin panel for managing users (only admins)
+- 💾 Tasks and users stored in `.json` files
+- 📱 Mobile-optimized glowing landing page with smooth trails
+- 🔒 Admins cannot delete themselves or other admins
+- 🧠 Smart frontend: live validation, dynamic updates, error alerts
 
 ---
 
-## 🛠 Technologies Used
+## 🖼 Fancy Landing Page
 
-- [FastAPI](https://fastapi.tiangolo.com/) — Python web framework
-- [Uvicorn](https://www.uvicorn.org/) — ASGI server to run FastAPI
-- [Jinja2](https://jinja.palletsprojects.com/) — Templating engine
-- Vanilla JavaScript (Fetch API & DOM manipulation)
+The Github Page deployed opens a glowing animated page inspired by Windows' light trails.  
+It works on both desktop and mobile, and launches the app which is hosted on Render.
+
+---
+
+## 🛠 Tech Stack
+
+- **Backend**: FastAPI, Uvicorn, Cryptography, JWT
+- **Frontend**: HTML, CSS, Vanilla JS, Jinja2
+- **Storage**: users.json + tasks.json (per-user)
 
 ---
 
 ## 📁 Project Structure
 
-```bash
-FastAPI/
-├── main.py              # FastAPI backend code and API routes
-├── requirements.txt     # Python dependencies
-│
-└── templates/
-    └── index.html       # Frontend HTML with embedded JS for UI
 ```
+FastAPI/
+├── main.py              # FastAPI backend, auth, task, and admin logic
+├── requirements.txt     # Dependencies (for Render + local)
+├── templates/
+│   ├── login.html       # Login form
+│   ├── register.html    # Register form
+│   └── tasks.html       # Task manager (SPA)
+├── index.html       # Fancy animated launch page
+├── users.json           # Stored users (admin & regular)
+└── tasks.json           # Stored tasks per user
+````
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚙️ Getting Started Locally
 
 1. **Clone the Repository**
 
 ```bash
-   git clone https://github.com/Argu333/FastAPI.git
-   cd FastAPI
-```
-2. **Install the used libraries (if not installed)**
+git clone https://github.com/Argu333/FastAPI.git
+cd FastAPI
+````
+
+2. **Install dependencies**
+
 ```bash
-  pip install -r requirements.txt
+pip install -r requirements.txt
 ```
+
+3. **Run the app**
+
+```bash
+uvicorn main:app --reload
+```
+
+4. **Visit the app**
+
+```bash
+Open your browser to http://127.0.0.1:8000
+```
+
+---
+
+## 🚀 Deployment
+
+### 📦 Render
+
+* Make sure you have:
+
+  * Nothing! I've already done everything so you can go right on in and use it at https://argu333.github.io/FastAPI/
+
+---
+
+## 💬 Credits
+
+Crafted with ❤️ by ArGu
+Designed for beauty, speed, and simplicity.
