@@ -2,7 +2,7 @@
   <img src="https://img.shields.io/badge/Click%20here%20then%20retry-blue?label=If%20the%20list%20is%20unresponsive%20at%20argu333.github.io%2FFastAPI%2F&labelColor=white" />
 </a>
 
-Please let it load for 2-3 mins first. It takes time on the first open after some time
+Please let it load for 3-4 mins when you run it for the first time. The backend host takes time to load the data when its being used after a long period of disuse.
 
 # 🚀 FastAPI ToDo List
 
